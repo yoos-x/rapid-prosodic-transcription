@@ -1,0 +1,209 @@
+/* ===== Base Layout ===== */
+body {
+	font-family: sans-serif;
+	padding: 0;
+	margin: 0;
+    font-size: 15px;
+}
+.centerpane {
+    text-align : center;
+	width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #808080;
+    box-sizing: border-box;
+}
+/* Table */
+td {
+	padding : 1px 2px 0px 2px;
+}
+
+
+
+/* ===== Banner ===== */
+#banner {
+    position: sticky;
+    top: 0;
+    z-index: 1002;
+    display: block;
+    height: 100px;
+    margin: 0;
+    padding: 3px;
+    background-color: #82C896;
+    text-align: center;
+}
+#banner #bannertext h2 {
+    margin: 5px;
+    font-size: 27px;
+    color: #FFFFFF;
+    text-align: center;
+}
+#banner #audioname, #banner #textname {
+    margin: 5px;
+    font-size: 13px;
+}
+#banner #logo {
+	float: left;
+	display : block;
+	height : 80px;
+}
+
+
+
+/* ===== Drop Zone ===== */
+#banner #dropzone {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    z-index: 1002;
+    width: 15%;
+    height: 75px;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    border-radius : 8px;
+    text-align : center;
+}
+#banner #dropzone #droptip {
+    position: relative;
+    display: inline-block;
+    margin: 13px auto;
+}
+#banner #dropzone #droptip img#dropicon {
+    display: block;
+    width : 25px;
+    height : 25px;
+}
+
+
+
+/* ===== Audio Player ===== */
+#audioplayer {
+	display: inline-block;
+    vertical-align: middle;
+	width: 90%;
+    margin-right: 10px;
+}
+
+
+
+/* ===== Transcript Panel ===== */
+#inputpanel {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+.audio-synced-highlight {
+    background-color: #FFFF00;
+}
+
+
+
+/* ===== Tip Zone ===== */
+.tipzone {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    z-index: 1003;
+    text-align : center;
+}
+.help-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #BBBBBB;
+    color: #FFFFFF;
+    text-align: center; /* clickable */
+    font-weight: bold;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    user-select: none;
+	vertical-align: middle;
+}
+.help-icon:hover {
+    background-color: #888888;
+}
+.tiptext {
+    position: absolute;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 270px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    background-color: #F9F9F9;
+    color: #333333;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+
+/* ===== Font Size Control ===== */
+#fontsizecontrol {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    z-index: 1001;
+    width: 4%;
+    min-width: 45px;
+    border: 1px solid #DDDDDD;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 7px;
+    text-align: center;
+}
+#fontsizecontrol button {
+    width: 80%;
+    margin: 3px;
+    padding: 3px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: #F0F0F0;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+#fontsizecontrol button:hover {
+    background-color: #E0E0E0;
+    border-color: #BBBBBB;
+}
+
+
+
+/* ===== Loading Overlay ===== */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    font-size: 19px;
+}
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 8px solid #F3F3F3;
+    border-top: 8px solid #3498DB;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 20px;
+}
+/* Animation for rotating the loading spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

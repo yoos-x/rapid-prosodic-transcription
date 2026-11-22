@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+		<meta name='mobile-web-app-capable' content='yes'>
+    	<meta name='apple-mobile-web-app-capable' content='yes'>
+		
+		<link rel='stylesheet' href='public/css/webtranscribe.css' type='text/css' />
+		<script src='https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js'></script>
+    	<script src='https://unpkg.com/jspdf-autotable@latest/dist/jspdf.plugin.autotable.js'></script>
+
+		<title>Rapid Prosodic Transcription</title>
+	</head>
+
+	<body>
+		<div id='loading-overlay' style='display: none;'>
+			<div class='loading-spinner'></div>
+			<p>Daten werden gerade verarbeitet...</p>
+		</div>
+
+		<div id='banner'>
+			<a href='index.html'><img id='logo' src='public/icons/webtranscribe_128.png' /></a>
+			<div id='bannertext'>
+				<h2>Rapid Prosodic Transcription</h2>
+			</div>
+
+			<div id='audioname'></div>
+			<div id='textname'></div>
+
+			<div id='dropzone' class='centerpane dropzone'>
+				<div id = 'droptip'>
+					<img id='dropicon' src='public/icons/upload-icon.png' style='cursor: pointer;'/>
+					<div id='droptiptext' class='tiptext' style='display: none;'>
+						Bewegen Sie Dateien in dieses Feld.<br>
+						(Drag-and-drop)
+					</div>
+				</div>	
+			</div>
+		</div>
+
+		<div id='data'>
+			<input type='hidden' id='project' value='RPT' />
+		</div>
+
+		<div id='initial-placeholder' class='centerpane'> 
+			<h1>Willkommen bei Rapid Prosodic Transcription!</h1>
+			<p>Um zu beginnen, ziehen Sie bitte Ihre Audiodatei (z.B. .wav, .mp3) und die zugehörige Textdatei (z.B. .txt) in den Drag-and-Drop Bereich oben.</p>
+			<p>Alternativ können Sie auch eine zuvor gespeicherte JSON-Datei hochladen, um frühere Annotationen wiederherzustellen.</p>
+			<p>Sobald Ihre Dateien verarbeitet wurden, erscheinen hier der Transkriptionseditor und der Audioplayer.</p>
+		</div>
+
+		<div id='audiocontrol' class='centerpane' style='display: none;'>
+			<audio id='audioplayer' controls></audio>
+
+			<div id='audiotip' class = 'tipzone'>
+				<span id='audiohelpicon' class = 'help-icon' title='Show help'>?</span>
+				<div id='audiotiptext' class='tiptext' style='display: none;'>
+					- Starten und Stoppen Sie die Audiowiedergabe durch Drücken der <b>Tabulatortaste</b>.<br>
+					- Spulen Sie 1 Sekunde zurück durch Drücken der <b>Tabulatortaste</b> bei gehaltener <b>Umschalttaste (Shift)</b>.<br>
+					- Spulen Sie 10 Sekunden zurück durch Drücken der <b>Tabulatortaste</b> bei gehaltener <b>Alt-Taste</b>.
+				</div>
+			</div>
+			
+		</div>
+
+		<div id='inputpanel' class='centerpane' style='display: none;'>
+		</div>
+
+		<div id='commandpanel' class='centerpane' style='display: none;'>
+			<input type='button' name='Download' value='Als JSON speichern' onclick='downloadJSON();' />
+			<input type='button' name='DownloadPDF' value='Als PDF speichern' onclick='downloadPDF();' />
+		</div>
+
+		<div id='fontsizecontrol' style='display: none;'>
+			<div id='texttip' class = 'tipzone'>
+				<span id='texthelpicon' class = 'help-icon' title='Show help'>?</span>
+				<div id='texttiptext' class='tiptext' style='display: none;'>
+					Steuern der Textschriftgröße
+				</div>
+			</div>
+
+			
+			<div> <button id='decrease-font'>-</button>
+				<button id='increase-font'>+</button>
+			</div>
+		</div>
+	</body>
+	
+	<!-- Core functionality modules -->
+	<script type='text/javascript' src='src/core/MarkItems.js'></script>
+	<script type='text/javascript' src='src/ui/DragDropAudio.js'></script>
+	<script type='text/javascript' src='src/ui/UIInteraction.js'></script>
+	<script type='text/javascript' src='src/audio/AudioSyncScroll.js'></script>
+	<script type='text/javascript' src='src/core/LogManager.js'></script>
+	<script type='text/javascript' src='src/core/AnnotationDisplay.js'></script>
+	<script type='text/javascript' src='src/audio/AudioControl.js'></script>
+	<script type='text/javascript' src='src/export/ExportManager.js'></script>
+	
+	<!-- Main program -->
+	<script>
+		const rewindTime = 1.0;
+		const audioPlayer = document.getElementById('audioplayer');
+		window.audioPlayer = audioPlayer;
+		initializeAudioSyncScrolling();
+		let log = [];
+		let currentFontSize = 16;
+		markItems = new MarkItems();
+	</script>
+</html> 
