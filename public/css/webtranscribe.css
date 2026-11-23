@@ -38,7 +38,7 @@ td {
     color: #FFFFFF;
     text-align: center;
 }
-#banner #audioname, #banner #textname {
+#banner #audioname, #banner #textname, #banner #audio-pairing-status:not(:empty) {
     margin: 5px;
     font-size: 13px;
 }
