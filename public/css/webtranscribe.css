@@ -71,18 +71,24 @@ body:has(#initial-placeholder:not([hidden])) #banner #bannertext h2 {
     width: 15%;
     height: 75px;
     border: 2px dashed rgba(255, 255, 255, 0.7);
-    border-radius : 8px;
-    text-align : center;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
 }
-#banner #dropzone #droptip {
-    position: relative;
-    display: inline-block;
-    margin: 13px auto;
+#banner #dropzone:focus-visible {
+    outline: 2px solid #174b29;
+    outline-offset: 2px;
 }
-#banner #dropzone #droptip img#dropicon {
-    display: block;
-    width : 25px;
-    height : 25px;
+#banner #dropzone #dropicon {
+    width: 25px;
+    height: 25px;
 }
 
 

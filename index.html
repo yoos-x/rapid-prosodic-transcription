@@ -28,15 +28,11 @@
 			<div id='textname'></div>
 			<div id='audio-pairing-status' role='status'></div>
 
-			<div id='dropzone' class='centerpane dropzone'>
-				<div id = 'droptip'>
-					<img id='dropicon' src='public/icons/upload-icon.png' style='cursor: pointer;'/>
-					<div id='droptiptext' class='tiptext' style='display: none;'>
-						Bewegen Sie Dateien in dieses Feld.<br>
-						(Drag-and-drop)
-					</div>
-				</div>	
-			</div>
+			<button type='button' id='dropzone' class='centerpane dropzone'>
+				<img id='dropicon' src='public/icons/upload-icon.png' alt='' />
+				<span>Dateien auswählen</span>
+			</button>
+			<input type='file' id='file-picker' accept='audio/*,text/*,.wav,.mp3,.txt,.json' multiple hidden />
 		</div>
 
 		<div id='data'>
@@ -45,7 +41,7 @@
 
 		<div id='initial-placeholder' class='centerpane'> 
 			<h1>Willkommen bei Rapid Prosodic Transcription!</h1>
-			<p>Um zu beginnen, ziehen Sie bitte Ihre Audiodatei (z.B. .wav, .mp3) und die zugehörige Textdatei (z.B. .txt) in den Drag-and-Drop Bereich oben.</p>
+			<p>Um zu beginnen, wählen Sie oben Ihre Audiodatei (z. B. .wav, .mp3) und die zugehörige Textdatei (z. B. .txt) aus oder ziehen Sie beide Dateien in das Feld.</p>
 			<p>Alternativ können Sie auch eine zuvor gespeicherte JSON-Datei hochladen, um frühere Annotationen wiederherzustellen.</p>
 			<p>Sobald Ihre Dateien verarbeitet wurden, erscheinen hier der Transkriptionseditor und der Audioplayer.</p>
 		</div>

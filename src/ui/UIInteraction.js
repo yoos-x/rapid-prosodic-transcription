@@ -82,27 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  /**
-   * Function to setup dropzone help icon interaction
-   */
-  function setupDropzoneInteraction(helpIcon, text) {
-    const helpIconElem = document.getElementById(helpIcon);
-    const tipText = document.getElementById(text);
-
-    if (helpIconElem && tipText) {
-      // Show tooltip on mouse enter
-      helpIconElem.addEventListener('mouseenter', function(event) {
-        tipText.style.display = 'block';
-      });
-      // Hide tooltip on mouse leave
-      helpIconElem.addEventListener('mouseleave', function(event) {
-        tipText.style.display = 'none';
-      });
-    }
-  }
   setupHelpInteraction('audiohelpicon', 'audiotiptext');
   setupHelpInteraction('texthelpicon', 'texttiptext');
-  setupDropzoneInteraction('dropicon', 'droptiptext');
 });
 
 // --- Loading Overlay ---

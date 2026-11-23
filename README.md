@@ -17,7 +17,7 @@ Rapid Prosody Transcription offers a perception-based approach: listeners, inclu
 
 ## Features
 
-- Drag-and-drop import of audio and text files
+- File picker and drag-and-drop import for audio, text, and saved annotations
 - Clickable word and boundary annotations
 - Keyboard shortcuts for audio playback and rewinding
 - Adjustable transcript font size
@@ -56,7 +56,8 @@ This version provided here runs independently in the browser and upports saving 
 
 ### 1. Import Audio and Text
 
-Drag an audio file and its corresponding transcript into the upload area.
+Click **Dateien auswählen** to select an audio file and its corresponding transcript,
+or drag both files into the upload area.
 
 ![Welcome screen with the file drop area in the upper right](docs/screenshots/welcome-screen.png)
 

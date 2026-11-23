@@ -50,6 +50,12 @@ function requirePairedAudio() {
  */
 window.addEventListener('load', function() {
     const dropzone = document.querySelector('#dropzone');
+    const filePicker = document.getElementById('file-picker');
+    dropzone.addEventListener('click', () => filePicker.click());
+    filePicker.addEventListener('change', () => {
+        importFiles(filePicker.files);
+        filePicker.value = '';
+    });
     dropzone.addEventListener('drop', handleDrop, false);
     dropzone.addEventListener('dragover', handleDragOver, false);
     dropzone.addEventListener('dragenter', handleDragEnter, false);
@@ -82,69 +88,64 @@ function handleDrop(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    // Visual feedback for drop
-    event.target.style.border = "3px dotted gray";
+    importFiles(event.dataTransfer.files);
+}
 
-    if (event.dataTransfer.files) {
-        const files = event.dataTransfer.files;
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+function importFiles(files) {
+    for (const file of files) {
+        const fileName = file.name.toLowerCase();
+        const isJSON = file.type === 'application/json' || fileName.endsWith('.json');
+        // Handle text file upload
+        if (!isJSON && (file.type.startsWith("text/") || fileName.endsWith(".txt"))) {
+            document.getElementById("textname").textContent = "Geladene Textdatei: " + file.name;
+            window.textFileName = file.name;
+            window.jsonFileName = null;
 
-            // Handle text file upload
-            if (file.type.startsWith("text/")) {
-                document.getElementById("textname").textContent = "Geladene Textdatei: " + file.name;
-                window.textFileName = file.name;
-                window.jsonFileName = null;
+            const textReader = new FileReader();
+            textReader.readAsText(file);
+            textReader.onload = (e) => {
+                window.rawTranscript = e.target.result.trim();
+                showAnnotation({ transcript: e.target.result });
+            };
 
-                const textReader = new FileReader();
-                textReader.readAsText(file);
-                textReader.onload = (e) => {
-                    window.rawTranscript = e.target.result.trim();
-                    showAnnotation({ transcript: e.target.result });
-                };
+        // Handle audio file upload
+        } else if (!isJSON && (file.type.startsWith("audio/") || /\.(wav|mp3)$/.test(fileName))) {
+            const previousAudio = loadedAudioFile;
+            loadedAudioFile = { name: file.name, url: URL.createObjectURL(file) };
+            window.audioPlayer.src = loadedAudioFile.url;
+            if (previousAudio) URL.revokeObjectURL(previousAudio.url);
+            document.getElementById("audioname").textContent = "Ausgewählte Audiodatei: " + file.name;
+            refreshAudioPairing();
 
-            // Handle audio file upload
-            } else if (file.type.startsWith("audio/")) {
-                const previousAudio = loadedAudioFile;
-                loadedAudioFile = { name: file.name, url: URL.createObjectURL(file) };
-                window.audioPlayer.src = loadedAudioFile.url;
-                if (previousAudio) URL.revokeObjectURL(previousAudio.url);
-                document.getElementById("audioname").textContent = "Ausgewählte Audiodatei: " + file.name;
-                refreshAudioPairing();
+            document.getElementById("audiocontrol").style.display = "block";
+            document.getElementById('initial-placeholder').hidden = true;
 
-                document.getElementById("audiocontrol").style.display = "block";
-                document.getElementById('initial-placeholder').hidden = true;
+        // Handle JSON file upload
+        } else if (isJSON) {
+            document.getElementById("textname").textContent = "Geladene JSON-Datei: " + file.name;
+            window.jsonFileName = file.name;
+            window.textFileName = null;
 
-            // Handle JSON file upload
-            } else if (file.type === "application/json" || file.name.endsWith(".json")) {
-                document.getElementById("textname").textContent = "Geladene JSON-Datei: " + file.name;
-                window.jsonFileName = file.name;
-                window.textFileName = null;
-            
-                const jsonReader = new FileReader();
-                jsonReader.readAsText(file);
-                
-                jsonReader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        if (typeof data.audiofilename !== 'string' || !data.audiofilename.trim()) {
-                            alert('Die JSON-Datei enthält keinen Namen der zugehörigen Audiodatei.');
-                            return;
-                        }
-                        window.rawTranscript = data.rawTranscript.trim();
-                        // Display transcript and restore activated tokens
-                        showAnnotation(data);
-                    } catch (err) {
-                        addToLog("error", "JSON load failed: " + err.message);
+            const jsonReader = new FileReader();
+            jsonReader.readAsText(file);
+
+            jsonReader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (typeof data.audiofilename !== 'string' || !data.audiofilename.trim()) {
+                        alert('Die JSON-Datei enthält keinen Namen der zugehörigen Audiodatei.');
+                        return;
                     }
-                };
+                    window.rawTranscript = data.rawTranscript.trim();
+                    // Display transcript and restore activated tokens
+                    showAnnotation(data);
+                } catch (err) {
+                    addToLog("error", "JSON load failed: " + err.message);
+                }
+            };
 
-            } else {
-                addToLog('Unexpected file type: ' + file.type + '. Only text or audio files are allowed.');
-            }
+        } else {
+            addToLog('Unexpected file type: ' + file.type + '. Only text or audio files are allowed.');
         }
     }
-
-    // Remove visual feedback after drop
-    event.target.style.border = "";
 }
