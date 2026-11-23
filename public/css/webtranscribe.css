@@ -38,6 +38,18 @@ td {
     color: #FFFFFF;
     text-align: center;
 }
+body:has(#initial-placeholder:not([hidden])) #bannertext {
+    position: absolute;
+    inset: 0 max(90px, calc(15% + 20px));
+    display: grid;
+    place-items: center;
+}
+body:has(#initial-placeholder:not([hidden])) #banner #bannertext h2 {
+    margin: 0;
+    font-size: clamp(20px, 5vw, 48px);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
 #banner #audioname, #banner #textname, #banner #audio-pairing-status:not(:empty) {
     margin: 5px;
     font-size: 13px;

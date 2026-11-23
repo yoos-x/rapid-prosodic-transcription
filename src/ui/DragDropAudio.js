@@ -113,7 +113,7 @@ function handleDrop(event) {
                 refreshAudioPairing();
 
                 document.getElementById("audiocontrol").style.display = "block";
-                document.getElementById("initial-placeholder").style.display = "none";
+                document.getElementById('initial-placeholder').hidden = true;
 
             // Handle JSON file upload
             } else if (file.type === "application/json" || file.name.endsWith(".json")) {

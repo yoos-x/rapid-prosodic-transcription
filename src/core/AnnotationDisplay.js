@@ -9,7 +9,7 @@ function showAnnotation(data) {
     setTimeout(() => {
         try {
             // Hide placeholder and show panels
-            document.getElementById('initial-placeholder').style.display = 'none';
+            document.getElementById('initial-placeholder').hidden = true;
             document.getElementById('inputpanel').style.display = 'block';
             document.getElementById('commandpanel').style.display = 'block';
             document.getElementById('audioplayer').style.display = '';
