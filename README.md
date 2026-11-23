@@ -56,7 +56,7 @@ This version provided here runs independently in the browser and upports saving 
 
 ### 1. Import Audio and Text
 
-Click **Dateien auswählen** to select an audio file and its corresponding transcript,
+Click the upload icon to select an audio file and its corresponding transcript,
 or drag both files into the upload area.
 
 ![Welcome screen with the file drop area in the upper right](docs/screenshots/welcome-screen.png)

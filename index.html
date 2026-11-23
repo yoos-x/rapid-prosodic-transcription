@@ -28,9 +28,10 @@
 			<div id='textname'></div>
 			<div id='audio-pairing-status' role='status'></div>
 
-			<button type='button' id='dropzone' class='centerpane dropzone'>
+			<button type='button' id='dropzone' class='centerpane dropzone'
+			        aria-label='Dateien auswählen' aria-describedby='droptiptext'>
 				<img id='dropicon' src='public/icons/upload-icon.png' alt='' />
-				<span>Dateien auswählen</span>
+				<span id='droptiptext' class='tiptext'>Dateien auswählen<br />oder hierher ziehen</span>
 			</button>
 			<input type='file' id='file-picker' accept='audio/*,text/*,.wav,.mp3,.txt,.json' multiple hidden />
 		</div>
