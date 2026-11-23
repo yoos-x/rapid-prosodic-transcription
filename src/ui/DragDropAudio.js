@@ -1,6 +1,50 @@
 // DragDropAudio.js
 // Responsible for handling audio file upload
 
+let annotationAudioFileName = null;
+let loadedAudioFile = null;
+
+function audioPairingProblem() {
+    const file = loadedAudioFile;
+    const player = window.audioPlayer;
+    if (!file) {
+        return annotationAudioFileName
+            ? `Bitte laden Sie die zugehörige Audiodatei „${annotationAudioFileName}“.`
+            : 'Bitte laden Sie zuerst eine Audiodatei.';
+    }
+    if (annotationAudioFileName && file.name !== annotationAudioFileName) {
+        return `Für diese Annotationen wird „${annotationAudioFileName}“ benötigt. Ausgewählt ist „${file.name}“.`;
+    }
+    if (player.error) {
+        return `Die Audiodatei „${file.name}“ konnte nicht geladen werden.`;
+    }
+    if (player.currentSrc !== file.url || player.readyState < HTMLMediaElement.HAVE_METADATA) {
+        return `Die Audiodatei „${file.name}“ wird geladen …`;
+    }
+    return '';
+}
+
+function refreshAudioPairing() {
+    document.getElementById('audio-pairing-status').textContent =
+        loadedAudioFile || annotationAudioFileName ? audioPairingProblem() : '';
+    window.updateSortedActiveItemsForScroll();
+    startAnimationLoop();
+}
+
+function setAnnotationAudioFileName(fileName) {
+    annotationAudioFileName = fileName || null;
+    refreshAudioPairing();
+}
+
+function requirePairedAudio() {
+    const problem = audioPairingProblem();
+    if (problem) {
+        alert(problem);
+        return null;
+    }
+    return loadedAudioFile.name;
+}
+
 /**
  * Function to add event listeners after window loads.
  */
@@ -9,6 +53,10 @@ window.addEventListener('load', function() {
     dropzone.addEventListener('drop', handleDrop, false);
     dropzone.addEventListener('dragover', handleDragOver, false);
     dropzone.addEventListener('dragenter', handleDragEnter, false);
+
+    const player = window.audioPlayer;
+    player.addEventListener('loadedmetadata', refreshAudioPairing);
+    player.addEventListener('error', refreshAudioPairing);
 });
 
 /**
@@ -57,22 +105,12 @@ function handleDrop(event) {
 
             // Handle audio file upload
             } else if (file.type.startsWith("audio/")) {
-                document.getElementById("audioname").textContent = "Geladene Audiodatei: " + file.name;
-                window.audioFileName = file.name;
-
-                const playerElement = document.querySelector("#audioplayer");
-                if ('srcObject' in playerElement) {
-                    try {
-                        playerElement.srcObject = file;
-                    } catch (error) {
-                        if (error.name != "TypeError") {
-                            throw error;
-                        }
-                        playerElement.src = URL.createObjectURL(file);
-                    }
-                } else {
-                    playerElement.src = URL.createObjectURL(file);
-                }
+                const previousAudio = loadedAudioFile;
+                loadedAudioFile = { name: file.name, url: URL.createObjectURL(file) };
+                window.audioPlayer.src = loadedAudioFile.url;
+                if (previousAudio) URL.revokeObjectURL(previousAudio.url);
+                document.getElementById("audioname").textContent = "Ausgewählte Audiodatei: " + file.name;
+                refreshAudioPairing();
 
                 document.getElementById("audiocontrol").style.display = "block";
                 document.getElementById("initial-placeholder").style.display = "none";
@@ -89,10 +127,11 @@ function handleDrop(event) {
                 jsonReader.onload = (e) => {
                     try {
                         const data = JSON.parse(e.target.result);
-                        window.rawTranscript = data.rawTranscript.trim();
-                        if (!window.audioFileName) {
-                            window.audioFileName = data.audiofilename;
+                        if (typeof data.audiofilename !== 'string' || !data.audiofilename.trim()) {
+                            alert('Die JSON-Datei enthält keinen Namen der zugehörigen Audiodatei.');
+                            return;
                         }
+                        window.rawTranscript = data.rawTranscript.trim();
                         // Display transcript and restore activated tokens
                         showAnnotation(data);
                     } catch (err) {

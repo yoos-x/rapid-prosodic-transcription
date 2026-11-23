@@ -62,7 +62,7 @@ function showAnnotation(data) {
             }
 
             // Update scroll and keyboard event
-            window.updateSortedActiveItemsForScroll();
+            setAnnotationAudioFileName(data.audiofilename);
             document.onkeydown = interpretKey;
         } finally {
             hideLoading();

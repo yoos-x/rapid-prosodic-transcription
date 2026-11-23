@@ -5,17 +5,19 @@
  * Function to download JSON file
  */
 function downloadJSON() {
-    const audioFileName = window.audioFileName;
+    const audioFileName = requirePairedAudio();
+    if (!audioFileName) return;
+    const audio = loadedAudioFile;
+    const exportMarkItems = markItems;
     const rawTranscript = window.rawTranscript;
 
-    // Check if audio file is loaded
-    if (!audioFileName) {
-        alert('Bitte laden Sie zuerst eine Audiodatei hoch, bevor Sie eine JSON-Datei exportieren.');
-        return;
-    }
     showLoading();
     setTimeout(() => {
         try {
+            if (audio !== loadedAudioFile || exportMarkItems !== markItems || audioPairingProblem()) {
+                alert('Die Audiodatei oder die Annotationen haben sich geändert. Bitte starten Sie den Export erneut.');
+                return;
+            }
             const exportData = {
                 log: log,
                 transcript: markItems.getText(),
@@ -48,19 +50,21 @@ function downloadJSON() {
  * Function to download PDF file
  */
 function downloadPDF() {
-    const audioFileName = window.audioFileName;
+    const audioFileName = requirePairedAudio();
+    if (!audioFileName) return;
+    const audio = loadedAudioFile;
+    const exportMarkItems = markItems;
     const rawTranscript = window.rawTranscript;
     const jsonFileName = window.jsonFileName;
     const textFileName = window.textFileName;
 
-    // Check if audio file is loaded
-    if (!audioFileName) {
-        alert('Bitte laden Sie zuerst eine Audiodatei hoch, bevor Sie eine PDF-Datei exportieren.');
-        return;
-    }
     showLoading();
     setTimeout(() => {
         try {
+            if (audio !== loadedAudioFile || exportMarkItems !== markItems || audioPairingProblem()) {
+                alert('Die Audiodatei oder die Annotationen haben sich geändert. Bitte starten Sie den Export erneut.');
+                return;
+            }
             const doc = new jspdf.jsPDF({ unit: 'pt', format: 'a4' });
             
             // Define consistent page margins

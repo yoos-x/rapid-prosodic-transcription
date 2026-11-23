@@ -96,6 +96,8 @@ word-level forced alignment.
 ### 6. Reopen Annotations
 
 Import a previously exported JSON file to restore the annotation
-states, and load the corresponding audio recording separately.
+states, and load the corresponding audio recording separately. Use the original
+audio filename recorded in the JSON. Marking, audio-guided scrolling, and
+export are enabled once that file is loaded and readable.
 
 The JSON file does not contain the audio itself.

@@ -334,9 +334,11 @@ class MarkItems {
 			if (this.items[i].getSpanId() == span.id) {
 				const item = this.items[i];
 				if (!item.isDisabled()) {
+					const audioFileName = requirePairedAudio();
+					if (!audioFileName) return;
 					item.toggleActivated();
 					item.displayItem();
-					window.updateSortedActiveItemsForScroll();
+					setAnnotationAudioFileName(audioFileName);
 				}
 				this.caretPos = i;
 				break;

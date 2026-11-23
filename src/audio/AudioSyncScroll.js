@@ -26,7 +26,7 @@ function clearCurrentHighlight() {
  * Function to animation loop for smooth sliding.
  */
 function animationLoop(currentTime) {
-    if (userInteracting) {
+    if (userInteracting || audioPairingProblem()) {
         animationFrameId = null;
         return;
     }
@@ -139,7 +139,7 @@ function animationLoop(currentTime) {
  * Function to start the animation loop.
  */
 function startAnimationLoop() {
-    if (!animationFrameId && window.audioPlayer && !window.audioPlayer.paused) {
+    if (!animationFrameId && window.audioPlayer && !window.audioPlayer.paused && !audioPairingProblem()) {
         lastFrameTime = performance.now();
         animationFrameId = requestAnimationFrame(animationLoop);
     }
@@ -151,7 +151,7 @@ function startAnimationLoop() {
 function updateSortedActiveItemsForScroll() {
     clearCurrentHighlight();
     sortedActiveItemsWithTimestamps = [];
-    if (window.markItems && window.markItems.items) {
+    if (!audioPairingProblem() && window.markItems && window.markItems.items) {
         window.markItems.items.forEach(item => {
             if (item.isActivated() && item.playbackTimestamps && item.playbackTimestamps.length > 0) {
                 const timestamp = item.playbackTimestamps[item.playbackTimestamps.length - 1];
