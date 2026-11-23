@@ -8,6 +8,8 @@ This application supports Rapid Prosody Transcription (RPT), allowing listeners 
 The implementation focuses on the annotation interface, audio playback, annotation persistence, and audio-guided scrolling.
 It does not perform automatic speech recognition.
 
+![Annotation workspace with audio playback, red prominence marks, a highlighted prosodic boundary, and export controls](docs/screenshots/annotation-workspace.png)
+
 ## Purpose
 
 Prosody research relies on annotations that describe how listeners perceive the structure of speech. Traditional annotation methods often require specialist training and substantial annotation time.
@@ -55,6 +57,8 @@ This version provided here runs independently in the browser and upports saving 
 ### 1. Import Audio and Text
 
 Drag an audio file and its corresponding transcript into the upload area.
+
+![Welcome screen with the file drop area in the upper right](docs/screenshots/welcome-screen.png)
 
 ### 2. Listen and Annotate
 
